@@ -24,38 +24,40 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.owncloud.android.datamodel.FileDataStorageManager;
+import com.owncloud.android.datamodel.FileDataStorageManagerInterface;
 import com.owncloud.android.lib.common.OwnCloudClient;
 import com.owncloud.android.lib.common.operations.OnRemoteOperationListener;
 import com.owncloud.android.lib.common.operations.RemoteOperation;
 import com.owncloud.android.lib.common.operations.RemoteOperationResult;
 
-import lombok.Getter;
-
 
 /**
  * Operation which execution involves both interactions with an ownCloud server and
  * with local data in the device.
- * 
+ *
  * Provides methods to execute the operation both synchronously or asynchronously.
  */
 public abstract class SyncOperation extends RemoteOperation {
-    //private static final String TAG = SyncOperation.class.getSimpleName();
+    private FileDataStorageManagerInterface storageManager;
 
-    @Getter private FileDataStorageManager storageManager;
+    public FileDataStorageManagerInterface getStorageManager() {
+        return storageManager;
+    }
+
 
     /**
      * Synchronously executes the operation on the received ownCloud account.
-     * 
+     *
      * Do not call this method from the main thread.
-     * 
+     *
      * This method should be used whenever an ownCloud account is available, instead of
-     * {@link #execute(OwnCloudClient, com.owncloud.android.datamodel.FileDataStorageManager)}.
-     * 
+     * {@link #execute(OwnCloudClient, com.owncloud.android.datamodel.FileDataStorageManagerInterface)}.
+     *
      * @param storageManager
      * @param context   Android context for the component calling the method.
      * @return          Result of the operation.
      */
-    public RemoteOperationResult execute(FileDataStorageManager storageManager, Context context) {
+    public RemoteOperationResult execute(FileDataStorageManagerInterface storageManager, Context context) {
         if (storageManager == null) {
             throw new IllegalArgumentException("Trying to execute a sync operation with a " +
                     "NULL storage manager");
@@ -67,35 +69,33 @@ public abstract class SyncOperation extends RemoteOperation {
         this.storageManager = storageManager;
         return super.execute(this.storageManager.getAccount(), context);
     }
-    
-	
-	/**
+
+
+    /**
 	 * Synchronously executes the remote operation
-	 * 
+     *
      * Do not call this method from the main thread.
-     * 
+     *
 	 * @param client	Client object to reach an ownCloud server during the execution of the o
      *                  peration.
      * @param storageManager
 	 * @return			Result of the operation.
 	 */
-	public RemoteOperationResult execute(OwnCloudClient client,
-                                         FileDataStorageManager storageManager) {
+    public RemoteOperationResult execute(OwnCloudClient client, FileDataStorageManagerInterface storageManager) {
         if (storageManager == null) {
-            throw new IllegalArgumentException("Trying to execute a sync operation with a " +
-                    "NULL storage manager");
+            throw new IllegalArgumentException("Trying to execute a sync operation with a NULL storage manager");
         }
         this.storageManager = storageManager;
 		return super.execute(client);
 	}
 
-	
+
     /**
      * Asynchronously executes the remote operation
-     * 
+     *
      * This method should be used whenever an ownCloud account is available, instead of
      * {@link #execute(OwnCloudClient)}.
-     * 
+     *
      * @param account           ownCloud account in remote ownCloud server to reach during the
      *                          execution of the operation.
      * @param context           Android context for the component calling the method.
@@ -121,10 +121,10 @@ public abstract class SyncOperation extends RemoteOperation {
     }
     */
 
-    
-	/**
+
+    /**
 	 * Asynchronously executes the remote operation
-	 * 
+     *
 	 * @param client			Client object to reach an ownCloud server during the
      *                          execution of the operation.
 	 * @param listener			Listener to be notified about the execution of the operation.
