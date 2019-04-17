@@ -30,6 +30,7 @@ import com.owncloud.android.authentication.AccountUtils;
 import com.owncloud.android.datamodel.ArbitraryDataProvider;
 import com.owncloud.android.datamodel.FileDataStorageManager;
 import com.owncloud.android.datamodel.OCFile;
+import com.owncloud.android.lib.common.utils.Log_OC;
 import com.owncloud.android.ui.activity.PassCodeActivity;
 import com.owncloud.android.ui.activity.SettingsActivity;
 import com.owncloud.android.utils.FileSortOrder;
@@ -360,6 +361,7 @@ public final class AppPreferencesImpl implements AppPreferences {
 
     @Override
     public void setLockTimestamp(long timestamp) {
+        Log_OC.d(this, "set unlock timestamp to: " + timestamp);
         preferences.edit().putLong(PREF__LOCK_TIMESTAMP, timestamp).apply();
     }
 

@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.owncloud.android.R;
+import com.owncloud.android.lib.common.utils.Log_OC;
 import com.owncloud.android.utils.ThemeUtils;
 
 public class DeepLinkLoginActivity extends AuthenticatorActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log_OC.d(this, "started");
 
         setContentView(R.layout.deep_link_login);
 

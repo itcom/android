@@ -876,6 +876,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
     protected void onResume() {
         super.onResume();
 
+        // Passcode
+//        PassCodeManager passCodeManager = new PassCodeManager(preferences);
+//        passCodeManager.onActivityStarted(this);
+
         if (!webViewLoginMethod) {
             // bound here to avoid spurious changes triggered by Android on device rotations
             mHostUrlInput.setOnFocusChangeListener(this);

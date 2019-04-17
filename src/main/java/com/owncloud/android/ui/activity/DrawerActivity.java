@@ -1393,8 +1393,19 @@ public abstract class DrawerActivity extends ToolbarActivity
 
     @Override
     protected void onStop() {
+        if (preferences.getLockTimestamp() != 0) {
+            preferences.setLockTimestamp(System.currentTimeMillis());
+        }
         EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // app is killed or closed on purpose
+        // preferences.setLockTimestamp(0);
+
+        super.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

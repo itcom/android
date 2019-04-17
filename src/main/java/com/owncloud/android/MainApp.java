@@ -49,7 +49,6 @@ import com.nextcloud.client.di.ActivityInjector;
 import com.nextcloud.client.di.DaggerAppComponent;
 import com.nextcloud.client.preferences.AppPreferences;
 import com.nextcloud.client.preferences.AppPreferencesImpl;
-import com.owncloud.android.authentication.AccountUtils;
 import com.owncloud.android.authentication.PassCodeManager;
 import com.owncloud.android.datamodel.ArbitraryDataProvider;
 import com.owncloud.android.datamodel.MediaFolder;
@@ -236,6 +235,7 @@ public class MainApp extends MultiDexApplication implements
                 .build()
                 .schedule();
 
+
         // register global protection with pass code
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
 
@@ -243,18 +243,18 @@ public class MainApp extends MultiDexApplication implements
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 Log_OC.d(activity.getClass().getSimpleName(), "onCreate(Bundle) starting");
                 WhatsNewActivity.runIfNeeded(activity, preferences);
-                passCodeManager.onActivityCreated(activity);
+                // passCodeManager.onActivityCreated(activity);
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
                 Log_OC.d(activity.getClass().getSimpleName(), "onStart() starting");
-                passCodeManager.onActivityStarted(activity);
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
                 Log_OC.d(activity.getClass().getSimpleName(), "onResume() starting");
+                passCodeManager.onActivityStarted(activity);
             }
 
             @Override
